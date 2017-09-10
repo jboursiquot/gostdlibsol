@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"os"
+)
 
 var (
 	i = 100
@@ -14,7 +18,24 @@ var bi int64 = -922337203685
 var ui uint64 = 1844679551615
 
 func main() {
-	outputToStdout()
+	n, err := outputToWriter()
+	if err != nil {
+		fmt.Printf("Error occured: %s\n", err)
+		os.Exit(-1)
+	}
+	fmt.Printf("Filename: %s\n", n)
+}
+
+func outputToWriter() (string, error) {
+	file, err := ioutil.TempFile("", "example")
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	fmt.Fprintf(file, "i = %#v\nf = %#v\nb = %#v\ns = %#v\nbi = %#v\nui = %#v\np = %#v\n", i, f, b, s, bi, ui, p)
+
+	return file.Name(), nil
 }
 
 func outputToStdout() {
