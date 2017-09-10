@@ -11,6 +11,10 @@ func (p point) String() string {
 	return fmt.Sprintf("Point(%d, %d)", p.x, p.y)
 }
 
+func (p point) GoString() string {
+	return fmt.Sprintf("Point(%d, %d)", p.x, p.y)
+}
+
 var (
 	i = 100
 	f = 3.14
@@ -45,8 +49,8 @@ func outputToWriter() (string, error) {
 }
 
 func outputToStdout() {
-	fmt.Println(p)
-	fmt.Printf("%v\n", p)
+	// fmt.Println(p)
+	fmt.Printf("%#v\n", p)
 	// fmt.Println(i, f, b, s, bi, ui, p)
 	// fmt.Printf("i = %v\nf = %v\nb = %v\ns = %v\nbi = %v\nui = %v\np = %v\n", i, f, b, s, bi, ui, p)
 	// fmt.Printf("i = %#v\nf = %#v\nb = %#v\ns = %#v\nbi = %#v\nui = %#v\np = %#v\n", i, f, b, s, bi, ui, p)
