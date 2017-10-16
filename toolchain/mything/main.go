@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	fmt.Println(things.Thing{Name: "ThingOne"})
-	fmt.Println(things.Thing{Name: "ThingTwo"})
+	fmt.Println(things.Thing{Name: "Thing One"})
+	fmt.Println(things.Thing{Name: "Thing Two"})
 }
