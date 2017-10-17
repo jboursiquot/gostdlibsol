@@ -1,0 +1,4 @@
+Don't just check errors, handle them gracefully.
+Design the architecture, name the components, document the details.
+Documentation is for users.
+Don't panic.

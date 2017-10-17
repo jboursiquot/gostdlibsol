@@ -1,0 +1,6 @@
+Cgo must always be guarded with build tags.
+Cgo is not Go.
+With the unsafe package there are no guarantees.
+Clear is better than clever.
+Reflection is never clear.
+Errors are values.

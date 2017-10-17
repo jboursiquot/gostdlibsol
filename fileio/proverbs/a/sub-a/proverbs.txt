@@ -1,0 +1,2 @@
+interface{} says nothing.
+Gofmt's style is no one's favorite, yet gofmt is everyone's favorite.

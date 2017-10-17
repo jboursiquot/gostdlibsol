@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 func main() {
@@ -22,6 +23,10 @@ func main() {
 	// readFileAgain()
 	// readWithBufferedReader()
 	// readWithScanner()
+	// createDir()
+	// createDirs()
+	// deleteDir()
+	dirTraversal()
 }
 
 func createFile() {
@@ -188,5 +193,67 @@ func readWithScanner() {
 		log.Fatalln(err)
 	}
 
+	log.Println("Done.")
+}
+
+func createDir() {
+	if err := os.Mkdir("mydir", 0744); err != nil {
+		log.Fatalln(err)
+	}
+	fi, err := os.Stat("mydir")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	log.Printf("is 'dir' a directory?: %t", fi.IsDir())
+}
+
+func createDirs() {
+	dirs := []string{"dir", "sub", "sub", "sub"}
+	path := filepath.Join(dirs...)
+	if err := os.MkdirAll(path, 0744); err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func deleteDir() {
+	if err := os.Remove("mydir"); err != nil {
+		log.Fatalln(err)
+	}
+	// if err := os.RemoveAll("dir"); err != nil {
+	// 	log.Fatalln(err)
+	// }
+}
+
+func dirTraversal() {
+	file, err := os.Create("combined.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer file.Close()
+
+	bw := bufio.NewWriter(file)
+
+	f := func(p string, fi os.FileInfo, err error) error {
+		if fi.IsDir() {
+			return nil
+		}
+		log.Println(p)
+
+		bs, err := ioutil.ReadFile(p)
+		if err != nil {
+			return err
+		}
+
+		if _, err := bw.Write(bs); err != nil {
+			return err
+		}
+		bw.Flush()
+
+		return nil
+	}
+
+	if err := filepath.Walk("proverbs", f); err != nil {
+		log.Fatalln(err)
+	}
 	log.Println("Done.")
 }

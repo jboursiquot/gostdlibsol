@@ -1,0 +1,2 @@
+A little copying is better than a little dependency.
+Syscall must always be guarded with build tags.
