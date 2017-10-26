@@ -5,7 +5,6 @@ import (
 	"math/big"
 	"math/cmplx"
 	"math/rand"
-	"time"
 )
 
 func main() {
@@ -22,7 +21,6 @@ func bigInt() {
 	n := new(big.Int)
 	n.SetString("34500000000000000000", 10)
 	fmt.Printf("n = %v - %T\n", n, n)
-	fmt.Printf("%s\n", n.Text(10))
 
 	m := big.NewInt(128)
 	fmt.Printf("m = %v - %T\n", m, m)
@@ -99,15 +97,17 @@ func random() {
 		"Don't panic.",
 	}
 
-	n := rand.Intn(len(proverbs))
-	fmt.Println("Random Proverb:", proverbs[n], n)
+	var n int
 
-	rand.Seed(103)
 	n = rand.Intn(len(proverbs))
 	fmt.Println("Random Proverb:", proverbs[n], n)
 
-	s := rand.NewSource(time.Now().UnixNano())
-	r := rand.New(s)
-	n = r.Intn(len(proverbs))
-	fmt.Println("Random Proverb:", proverbs[n], n)
+	// rand.Seed(103)
+	// n = rand.Intn(len(proverbs))
+	// fmt.Println("Random Proverb:", proverbs[n], n)
+
+	// s := rand.NewSource(time.Now().UnixNano())
+	// r := rand.New(s)
+	// n = r.Intn(len(proverbs))
+	// fmt.Println("Random Proverb:", proverbs[n], n)
 }
