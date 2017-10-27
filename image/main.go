@@ -11,10 +11,10 @@ import (
 )
 
 func main() {
-	// createImage()
+	createImage()
 	// pixels()
 	// colors()
-	readImage()
+	// readImage()
 }
 
 func createImage() {
@@ -22,7 +22,7 @@ func createImage() {
 	rect := image.Rect(0, 0, w, h)
 	img := image.NewRGBA(rect)
 
-	f, err := os.Create("blank.gif")
+	f, err := os.Create("blank.png")
 	if err != nil {
 		log.Fatalln(err)
 	}
