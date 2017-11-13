@@ -43,3 +43,22 @@ func main() {
 	log.Println("Starting server...")
 	log.Fatal(http.ListenAndServe("127.0.0.1:8080", nil))
 }
+
+// Two styles of middleware because of the following:
+// http.Handle("/", http.HandlerFunc(f)) equivalent to
+// http.HandleFunc("/", f)
+// if f has signature func(http.ResponseWriter, *http.Response)
+
+func middlewareUsingHandlerFunc(f http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// the middlerware's logic here...
+		f(w, r) // equivalent to f.ServeHTTP(w, r)
+	}
+}
+
+func middlewareUsingHander(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// the middlerware's logic here...
+		next.ServeHTTP(w, r)
+	})
+}
