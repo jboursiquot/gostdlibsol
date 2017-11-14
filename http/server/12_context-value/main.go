@@ -50,6 +50,6 @@ func proverbHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/greet", addUsername(greetHandler))
 	http.HandleFunc("/proverb", addUsername(proverbHandler))
-	log.Println("Staring server...")
+	log.Println("Starting server...")
 	log.Fatal(http.ListenAndServe("127.0.0.1:8080", nil))
 }

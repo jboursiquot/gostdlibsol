@@ -83,6 +83,6 @@ func greetHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", greetHandler)
-	log.Println("Staring server...")
+	log.Println("Starting server...")
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
