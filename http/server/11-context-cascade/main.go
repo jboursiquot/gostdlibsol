@@ -76,7 +76,7 @@ func greetHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintln(w, "Hello Gopher!")
 			return
 		case <-things.DoHardThings(ctx):
-			log.Printf("greetHandler >> things did hard thingss")
+			log.Printf("greetHandler >> things did hard things")
 		}
 	}
 }
