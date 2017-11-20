@@ -37,7 +37,7 @@ func (h *handler) createProverb(w http.ResponseWriter, r *http.Request) {
 
 	var p Proverb
 	if err := json.Unmarshal(body, &p); err != nil {
-		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		w.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 
@@ -101,12 +101,12 @@ func (h *handler) updateProverb(w http.ResponseWriter, r *http.Request) {
 
 	var update Proverb
 	if err := json.Unmarshal(body, &update); err != nil {
-		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		w.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 
 	if update.Text == "" || update.Philosopher == "" {
-		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		w.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 

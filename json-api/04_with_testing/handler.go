@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"sync"
 
 	"github.com/gorilla/mux"
 )
@@ -21,7 +20,6 @@ type Proverb struct {
 
 type handler struct {
 	proverbs []Proverb
-	sync.RWMutex
 }
 
 func newHandler(proverbs []Proverb) *handler {
@@ -46,10 +44,8 @@ func (h *handler) createProverb(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.Lock()
 	p.ID = len(h.proverbs) + 1
 	h.proverbs = append(h.proverbs, p)
-	h.Unlock()
 
 	w.Header().Set("Location", fmt.Sprintf("/proverbs/%d", p.ID))
 	w.WriteHeader(http.StatusCreated)
@@ -57,15 +53,10 @@ func (h *handler) createProverb(w http.ResponseWriter, r *http.Request) {
 
 func (h *handler) getProverbs(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	h.RLock()
 	json.NewEncoder(w).Encode(h.proverbs)
-	h.RUnlock()
 }
 
 func (h *handler) getProverb(w http.ResponseWriter, r *http.Request) {
-	h.RLock()
-	defer h.RUnlock()
-
 	pid, err := strconv.Atoi(mux.Vars(r)["id"])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -84,9 +75,6 @@ func (h *handler) getProverb(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handler) updateProverb(w http.ResponseWriter, r *http.Request) {
-	h.Lock()
-	defer h.Unlock()
-
 	id, err := strconv.Atoi(mux.Vars(r)["id"])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -116,9 +104,6 @@ func (h *handler) updateProverb(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handler) deleteProverb(w http.ResponseWriter, r *http.Request) {
-	h.Lock()
-	defer h.Unlock()
-
 	pid, err := strconv.Atoi(mux.Vars(r)["id"])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
