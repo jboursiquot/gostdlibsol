@@ -11,6 +11,12 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func TestTruth(t *testing.T) {
+	if true != false {
+		t.Error("expected true to be true")
+	}
+}
+
 var (
 	h  *handler
 	r  *mux.Router
@@ -40,12 +46,7 @@ func TestNoRoot(t *testing.T) {
 func TestGetProverbs(t *testing.T) {
 	endpoint := strings.Join([]string{ts.URL, "proverbs"}, "/")
 
-	req, err := http.NewRequest(http.MethodGet, endpoint, nil)
-	if err != nil {
-		t.Error(err)
-	}
-
-	res, err := http.DefaultClient.Do(req)
+	res, err := http.Get(endpoint)
 	if err != nil {
 		t.Error(err)
 	}
@@ -82,7 +83,7 @@ func TestCreateProverb(t *testing.T) {
 		{
 			"invalid input",
 			`{"text":"Warriors should suffer their pain silently.", "Author": "Erin Hunter"}`,
-			http.StatusUnprocessableEntity,
+			http.StatusBadRequest,
 		},
 	}
 
