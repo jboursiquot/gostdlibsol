@@ -40,7 +40,7 @@ func (h *handler) createProverb(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if p.Text == "" || p.Philosopher == "" {
-		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -94,7 +94,7 @@ func (h *handler) updateProverb(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if update.Text == "" || update.Philosopher == "" {
-		w.WriteHeader(http.StatusUnprocessableEntity)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 

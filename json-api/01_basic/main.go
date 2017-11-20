@@ -25,6 +25,12 @@ func main() {
 	log.Fatalln(http.ListenAndServe("127.0.0.1:8080", r))
 }
 
+// newRouter returns a router to expose the following endpoints:
+// POST /proverbs (create proverb)
+// GET /proverbs (get all proverbs)
+// GET /proverb/{id} (get a specific proverb)
+// PUT /proverb/{id} (update a specific proverb)
+// DELETE /proverb/{id} (delete a specific proverb)
 func newRouter(h *handler) *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/proverbs", h.createProverb).Methods("POST")
