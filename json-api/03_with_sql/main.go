@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -14,7 +13,7 @@ import (
 )
 
 func main() {
-	db, err := connectDB("gostdessentials")
+	db, err := connectDB()
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %s", err)
 	}
@@ -48,8 +47,8 @@ func newRouter(h *handler) *mux.Router {
 	return r
 }
 
-func connectDB(dbname string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", fmt.Sprintf("username:password@/%s?charset=utf8", dbname))
+func connectDB() (*sql.DB, error) {
+	db, err := sql.Open("mysql", "username:password@/gostdessentials?charset=utf8")
 	if err != nil {
 		return nil, err
 	}

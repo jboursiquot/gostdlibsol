@@ -1,6 +1,6 @@
 package main
 
-var (
+const (
 	sqlInsert    = `INSERT INTO proverbs(text, philosopher) VALUES(?,?)`
 	sqlSelectAll = `SELECT id, text, philosopher FROM proverbs ORDER BY id`
 	sqlSelectOne = `SELECT id, text, philosopher FROM proverbs WHERE id=?`

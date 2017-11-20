@@ -16,7 +16,7 @@ import (
 type Proverb struct {
 	ID          int    `json:"id"`
 	Text        string `json:"text"`
-	Philosopher string `json:"philosoper,omitempty"`
+	Philosopher string `json:"philosopher,omitempty"`
 }
 
 type handler struct {
