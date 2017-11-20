@@ -10,7 +10,7 @@ import (
 // Proverb states a general truth or piece of advice.
 type Proverb struct {
 	ID       int
-	Value    string
+	Text     string
 	reviewed bool
 }
 

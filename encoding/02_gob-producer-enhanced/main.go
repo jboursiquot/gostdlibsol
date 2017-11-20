@@ -12,24 +12,24 @@ import (
 // Proverb states a general truth or piece of advice.
 type Proverb struct {
 	ID       int
-	Value    string
+	Text     string
 	reviewed bool
 }
 
 // MarshalBinary encodes the receiver into a binary form and returns the result.
 func (p Proverb) MarshalBinary() ([]byte, error) {
 	var b bytes.Buffer
-	_, err := fmt.Fprintf(&b, "ID=%d Value=%q reviewed=%t\n", p.ID, p.Value, p.reviewed)
+	_, err := fmt.Fprintf(&b, "ID=%d Text=%q reviewed=%t\n", p.ID, p.Text, p.reviewed)
 	return b.Bytes(), err
 }
 
 func main() {
 	proverbs := []Proverb{
-		Proverb{ID: 1, Value: "Don't panic.", reviewed: true},
-		Proverb{ID: 2, Value: "Concurrency is not parallelism.", reviewed: true},
-		Proverb{ID: 3, Value: "Documentation is for users.", reviewed: true},
-		Proverb{ID: 4, Value: "The bigger the interface, the weaker the abstraction.", reviewed: true},
-		Proverb{ID: 5, Value: "Make the zero value useful.", reviewed: true},
+		Proverb{ID: 1, Text: "Don't panic.", reviewed: true},
+		Proverb{ID: 2, Text: "Concurrency is not parallelism.", reviewed: true},
+		Proverb{ID: 3, Text: "Documentation is for users.", reviewed: true},
+		Proverb{ID: 4, Text: "The bigger the interface, the weaker the abstraction.", reviewed: true},
+		Proverb{ID: 5, Text: "Make the zero value useful.", reviewed: true},
 	}
 
 	filename := path.Join("..", "proverbs.gob")
