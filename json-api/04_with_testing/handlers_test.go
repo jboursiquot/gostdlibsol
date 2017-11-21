@@ -12,7 +12,7 @@ import (
 )
 
 func TestTruth(t *testing.T) {
-	if true != false {
+	if true != true {
 		t.Error("expected true to be true")
 	}
 }
@@ -24,9 +24,12 @@ var (
 )
 
 func TestMain(m *testing.M) {
+	// setup
 	h = newHandler(testProverbs())
 	r = newRouter(h)
 	ts = httptest.NewServer(r)
+	// no tear down needed
+	// just run our test suite and exit with a resulting code
 	os.Exit(m.Run())
 }
 
@@ -88,6 +91,7 @@ func TestCreateProverb(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
+		// any additional setup you need can go hear
 		t.Run(tc.scenario, func(t *testing.T) {
 			body := strings.NewReader(tc.payload)
 			req, err := http.NewRequest(http.MethodPost, endpoint, body)
@@ -104,6 +108,7 @@ func TestCreateProverb(t *testing.T) {
 				t.Errorf("expected status code %d but got %d", tc.expectedStatusCode, res.StatusCode)
 			}
 		})
+		// teardown following one or more test runs here is also doable
 	}
 }
 
