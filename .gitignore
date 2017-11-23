@@ -1,3 +1,4 @@
 vendor
 proverbs.gob
 proverbs.json
+concurrency/data/*.txt
