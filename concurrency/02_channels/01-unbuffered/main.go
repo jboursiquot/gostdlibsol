@@ -35,7 +35,8 @@ func main() {
 	done := make(chan *book)
 	go buildHistogram(books[0], done)
 	go buildHistogram(books[1], done)
-	b1, b2 := <-done, <-done
+	b1 := <-done
+	b2 := <-done
 
 	printHist(&b1.hist)
 	printHist(&b2.hist)
@@ -67,7 +68,7 @@ func buildHistogram(b *book, done chan *book) {
 }
 
 func printHist(h *histogram) {
-	fmt.Println("printHist -- ")
+	fmt.Println("\nprintHist -- ")
 	for k := range h.chars {
 		fmt.Printf("%q=%d, ", k, h.chars[k])
 	}
