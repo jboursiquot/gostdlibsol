@@ -34,7 +34,7 @@ func main() {
 
 	for _, b := range books {
 
-		go func(b *book) {
+		go func(b *book) { // https://golang.org/doc/faq#closures_and_goroutines
 			log.Printf("Processing %s...", b.title)
 			b.hist.chars = make(map[rune]int)
 
