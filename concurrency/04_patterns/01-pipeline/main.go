@@ -28,11 +28,11 @@ var books = []*book{
 	&book{title: "Meditations", path: "../../data/meditations.txt"},
 }
 
-func bookStage(books []*book) <-chan *book {
+func collecStage(books []*book) <-chan *book {
 	out := make(chan *book)
 	go func() {
 		for _, b := range books {
-			log.Printf("bookStage - %s", b.title)
+			log.Printf("collectStage - %s", b.title)
 			out <- b
 		}
 		close(out)
@@ -40,11 +40,11 @@ func bookStage(books []*book) <-chan *book {
 	return out
 }
 
-func histStage(in <-chan *book) <-chan *book {
+func buildStage(in <-chan *book) <-chan *book {
 	out := make(chan *book)
 	go func() {
 		for b := range in {
-			log.Printf("histStage - Processing %s...", b.title)
+			log.Printf("buildStage - Processing %s...", b.title)
 			b.hist.chars = make(map[rune]int)
 
 			file, err := os.Open(b.path)
@@ -62,7 +62,7 @@ func histStage(in <-chan *book) <-chan *book {
 			}
 
 			file.Close()
-			log.Printf("histStage - Done with %s", b.title)
+			log.Printf("buildStage - Done with %s", b.title)
 
 			out <- b
 		}
@@ -92,9 +92,9 @@ func main() {
 
 	hist := histogram{chars: make(map[rune]int)}
 
-	bs := bookStage(books)
-	hs := histStage(bs)
-	ts := tallyStage(&hist, hs)
+	cs := collecStage(books)
+	bs := buildStage(cs)
+	ts := tallyStage(&hist, bs)
 
 	for b := range ts {
 		log.Printf("main - %s", b.title)

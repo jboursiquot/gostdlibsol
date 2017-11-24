@@ -38,9 +38,9 @@ type result struct {
 }
 
 func worker(g *sync.WaitGroup) {
-	for job := range jobs {
-		h := result{job, buildHistogram(job.book)}
-		results <- h
+	for job := range jobsChan {
+		r := result{job, buildHistogram(job.book)}
+		resultsChan <- r
 	}
 	g.Done()
 }
@@ -52,35 +52,35 @@ func setupWorkerPool(numWorkers int) {
 		go worker(&g)
 	}
 	g.Wait()
-	close(results)
+	close(resultsChan)
 }
 
-var jobs = make(chan job, 2)
-var results = make(chan result, 2)
+var jobsChan = make(chan job, 2)
+var resultsChan = make(chan result, 2)
 
 func main() {
 	log.SetFlags(log.Ltime | log.Lmicroseconds)
 	log.Println("Starting...")
 
-	done := make(chan bool)
-
 	go func() {
 		for _, b := range books {
-			jobs <- job{book: b}
+			jobsChan <- job{book: b}
 		}
-		close(jobs)
+		close(jobsChan)
 	}()
 
+	done := make(chan bool)
 	go func() {
-		for r := range results {
-			printHist(r.job.book, r.hist)
+		for r := range resultsChan {
+			// printHist(r.job.book, r.hist)
+			log.Printf("Job for %s done", r.job.book.title)
 		}
 		done <- true
 	}()
 
 	setupWorkerPool(2)
 	<-done
-	log.Println("\nDone")
+	log.Println("Done")
 }
 
 func buildHistogram(b *book) *histogram {
