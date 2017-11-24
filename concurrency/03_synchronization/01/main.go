@@ -60,17 +60,6 @@ func buildHistogram(b *book, done chan *histogram) {
 	done <- &b.hist
 }
 
-func tally(books ...*book) {
-	log.Printf("Tallying results for %d books...", len(books))
-	hist := histogram{chars: make(map[rune]int)}
-	for _, book := range books {
-		for key := range book.hist.chars {
-			hist.chars[key] += book.hist.chars[key]
-		}
-	}
-	printHist(&hist)
-}
-
 func printHist(h *histogram) {
 	for k := range h.chars {
 		fmt.Printf("%q=%d, ", k, h.chars[k])
