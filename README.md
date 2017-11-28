@@ -1,3 +1,3 @@
-# Go: Standard Library Essentials
+# Go Standard Library Solutions
 
 Course code.
